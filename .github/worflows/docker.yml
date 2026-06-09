@@ -1,13 +1,17 @@
-FROM python:3.11
+name: Docker CI
 
-WORKDIR /app
+on:
+  push:
+    branches:
+      - main
+      - master
 
-COPY requirements.txt .
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-RUN pip install -r requirements.txt
+    steps:
+      - uses: actions/checkout@v4
 
-COPY . .
-
-EXPOSE 5000
-
-CMD ["python","app.py"]
+      - name: Build Docker image
+        run: docker build -t devops-examen .
